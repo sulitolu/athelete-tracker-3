@@ -1,292 +1,276 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2299.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Athlete Data App — Day1–2 MVP</title>
+  <style>
+    :root{--bg:#0b0f14;--panel:#121821;--ink:#e9eef6;--muted:#9fb0c8;--line:#203045}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{position:sticky;top:0;background:#0b0f14cc;border-bottom:1px solid #1a2433;backdrop-filter:blur(6px)}
+    .wrap{max-width:900px;margin:0 auto;padding:16px}
+    h1{font-size:20px;margin:6px 0 8px}
+    .sub{color:var(--muted);font-size:12px}
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+    .tab{padding:8px 10px;border-radius:10px;background:#111722;border:1px solid #1e2a3b;font-size:13px;color:var(--muted);cursor:pointer}
+    .tab.active{color:var(--ink);background:#162034}
+    section{display:none}
+    .grid{display:grid;gap:12px}
+    @media(min-width:860px){.grid.cols-2{grid-template-columns:1fr 1fr}}
+    .panel{background:var(--panel);border:1px solid #1d2633;border-radius:14px;padding:12px}
+    .panel h2{font-size:15px;margin:0 0 8px}
+    label{display:block;color:var(--muted);font-size:12px;margin:8px 0 4px}
+    input,button,textarea{width:100%;background:#0b121b;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px}
+    input:focus,textarea:focus{outline:2px solid #1a84ff}
+    button{cursor:pointer}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .row>*{flex:1 1 140px}
+    .hint{color:var(--muted);font-size:12px}
+    canvas{max-width:100%}
+    .table{overflow:auto;border:1px solid #1d2633;border-radius:10px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid #1b2533;text-align:left;font-size:13px}
+    th{color:#9fb0c8;font-weight:600}
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-<p class="p1"><span class="Apple-converted-space"> </span>&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Athlete Data App — Day1–2 MVP&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>:root{--bg:#0b0f14;--panel:#121821;--ink:#e9eef6;--muted:#9fb0c8;--line:#203045}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>header{position:sticky;top:0;background:#0b0f14cc;border-bottom:1px solid #1a2433;backdrop-filter:blur(6px)}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.wrap{max-width:900px;margin:0 auto;padding:16px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1{font-size:20px;margin:6px 0 8px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.sub{color:var(--muted);font-size:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.tab{padding:8px 10px;border-radius:10px;background:#111722;border:1px solid #1e2a3b;font-size:13px;color:var(--muted);cursor:pointer}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.tab.active{color:var(--ink);background:#162034}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>section{display:none}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.grid{display:grid;gap:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>@media(min-width:860px){.grid.cols-2{grid-template-columns:1fr 1fr}}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.panel{background:var(--panel);border:1px solid #1d2633;border-radius:14px;padding:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.panel h2{font-size:15px;margin:0 0 8px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>label{display:block;color:var(--muted);font-size:12px;margin:8px 0 4px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input,button,textarea{width:100%;background:#0b121b;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input:focus,textarea:focus{outline:2px solid #1a84ff}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button{cursor:pointer}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.row{display:flex;gap:8px;flex-wrap:wrap}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.row&gt;*{flex:1 1 140px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.hint{color:var(--muted);font-size:12px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>canvas{max-width:100%}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.table{overflow:auto;border:1px solid #1d2633;border-radius:10px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>table{width:100%;border-collapse:collapse}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>th,td{padding:8px;border-bottom:1px solid #1b2533;text-align:left;font-size:13px}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>th{color:#9fb0c8;font-weight:600}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;🏉 Athlete Data App — Day1–2 MVP&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub"&gt;Wellness, GPS, Gym logging • Weight &amp; GPS charts • Data saved to your browser&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;nav class="tabs" id="tabs"&gt;&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- HOME (charts) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="home" class="grid cols-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Weight Trend&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;canvas id="weightChart" height="170"&gt;&lt;/canvas&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hint"&gt;Enter weight in Wellness → it appears here.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;GPS Performance&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;canvas id="gpsChart" height="170"&gt;&lt;/canvas&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hint"&gt;Shows Distance (m) and Top Speed (m/s) per day.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel" style="grid-column:1/-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Yesterday at a glance&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="glance" class="hint"&gt;Add today’s wellness/GPS to populate.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- WELLNESS --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="wellness" class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Daily Wellness&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Date&lt;/label&gt;&lt;input type="date" id="wDate"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Sleep Hours&lt;/label&gt;&lt;input type="number" step="0.25" id="wSleep" placeholder="7.0"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Mood (1–5)&lt;/label&gt;&lt;input type="number" min="1" max="5" id="wMood" placeholder="3"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Stress (1–5)&lt;/label&gt;&lt;input type="number" min="1" max="5" id="wStress" placeholder="2"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Soreness (1–5)&lt;/label&gt;&lt;input type="number" min="1" max="5" id="wSore" placeholder="2"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Weight (kg)&lt;/label&gt;&lt;input type="number" step="0.1" id="wWeight" placeholder="120.0"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="flex-basis:100%"&gt;&lt;label&gt;Notes&lt;/label&gt;&lt;textarea id="wNotes" rows="2" placeholder=""&gt;&lt;/textarea&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="wSave"&gt;Add / Update&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="wView"&gt;View Table&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="wTable" class="table" style="margin-top:10px"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- GPS --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="gps" class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;GPS Session (manual)&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Date&lt;/label&gt;&lt;input type="date" id="gDate"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Duration (min)&lt;/label&gt;&lt;input type="number" step="1" id="gDur" placeholder="60"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Distance (m)&lt;/label&gt;&lt;input type="number" step="10" id="gDist" placeholder="4500"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Top Speed (m/s)&lt;/label&gt;&lt;input type="number" step="0.1" id="gTS" placeholder="8.5"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;RPE (1–10)&lt;/label&gt;&lt;input type="number" min="1" max="10" id="gRPE" placeholder="6"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="gAdd"&gt;Add Session&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="gView"&gt;View Table&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="gTable" class="table" style="margin-top:10px"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- GYM --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="gym" class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Gym Log&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Date&lt;/label&gt;&lt;input type="date" id="yDate"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Lift&lt;/label&gt;&lt;input type="text" id="yLift" placeholder="Back Squat"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Reps&lt;/label&gt;&lt;input type="number" min="1" id="yReps" placeholder="3"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Weight (kg)&lt;/label&gt;&lt;input type="number" step="0.5" id="yW" placeholder="180"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="yAdd"&gt;Add Set&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="yView"&gt;View Table&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="yTable" class="table" style="margin-top:10px"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- DATA --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="data" class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Data Management&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="btnExport"&gt;Export all data (.json)&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="file" id="importFile" accept="application/json"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="btnClear"&gt;Clear local data&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hint" style="margin-top:6px"&gt;This MVP stores everything in your browser (LocalStorage). Export regularly if needed.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Tabs -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const TABS = [</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{id:'home',label:'Home'},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{id:'wellness',label:'Wellness'},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{id:'gps',label:'GPS'},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{id:'gym',label:'Gym'},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{id:'data',label:'Data'}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const tabsEl = document.getElementById('tabs');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>TABS.forEach((t,i)=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const b=document.createElement('button');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>b.className='tab'+(i===0?' active':'');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>b.textContent=t.label;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>b.onclick=()=&gt;selectTab(t.id);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>tabsEl.appendChild(b);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function selectTab(id){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('section').forEach(s=&gt;s.style.display = (s.id===id?'grid':'none'));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab').forEach((el,i)=&gt;el.classList.toggle('active', TABS[i].id===id));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>drawAll();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- State -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const S = {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>wellness: JSON.parse(localStorage.getItem('wellness')||'[]'),</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gps: JSON.parse(localStorage.getItem('gps')||'[]'),</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gym: JSON.parse(localStorage.getItem('gym')||'[]')</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const save = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('wellness', JSON.stringify(S.wellness));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('gps', JSON.stringify(S.gps));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('gym', JSON.stringify(S.gym));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>drawAll();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const todayStr = ()=&gt; new Date().toISOString().slice(0,10);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>['wDate','gDate','yDate'].forEach(id=&gt;{ const el=document.getElementById(id); if(el) el.value=todayStr(); });</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Wellness -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('wSave').onclick = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const r = {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>date: document.getElementById('wDate').value || todayStr(),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>sleep: num('wSleep'), mood: num('wMood'),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>stress: num('wStress'), sore: num('wSore'),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>weight: num('wWeight'), notes: document.getElementById('wNotes').value||''</p>
-<p class="p1"><span class="Apple-converted-space">      </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const i = S.wellness.findIndex(x=&gt;x.date===r.date);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(i&gt;=0) S.wellness[i]=r; else S.wellness.push(r);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>renderTable('wTable', S.wellness, ['date','sleep','mood','stress','sore','weight']);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('wView').onclick = ()=&gt;renderTable('wTable', S.wellness, ['date','sleep','mood','stress','sore','weight']);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- GPS -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('gAdd').onclick = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const r = {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>date: document.getElementById('gDate').value || todayStr(),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>dur: num('gDur'), dist: num('gDist'), ts: num('gTS'), rpe: num('gRPE')</p>
-<p class="p1"><span class="Apple-converted-space">      </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>r.srpe = (r.rpe||0)*(r.dur||0);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>S.gps.push(r); save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>renderTable('gTable', S.gps.sort(byDateAsc), ['date','dur','dist','ts','rpe','srpe']);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('gView').onclick = ()=&gt;renderTable('gTable', S.gps.sort(byDateAsc), ['date','dur','dist','ts','rpe','srpe']);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Gym -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('yAdd').onclick = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const r = {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>date: document.getElementById('yDate').value || todayStr(),</p>
-<p class="p1"><span class="Apple-converted-space">        </span>lift: document.getElementById('yLift').value||'',</p>
-<p class="p1"><span class="Apple-converted-space">        </span>reps: num('yReps'), w: num('yW')</p>
-<p class="p1"><span class="Apple-converted-space">      </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>S.gym.push(r); save();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>renderTable('yTable', S.gym.sort(byDateAsc), ['date','lift','reps','w']);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('yView').onclick = ()=&gt;renderTable('yTable', S.gym.sort(byDateAsc), ['date','lift','reps','w']);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Import/Export/Clear -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('btnExport').onclick = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a=document.createElement('a'); a.href=URL.createObjectURL(blob);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>a.download='athlete_data_export.json'; a.click(); URL.revokeObjectURL(a.href);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('btnClear').onclick = ()=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(confirm('Delete all locally saved data?')){ localStorage.clear(); S.wellness=[]; S.gps=[]; S.gym=[]; drawAll(); }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('importFile').addEventListener('change', e=&gt;{</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const f=e.target.files[0]; if(!f) return; const r=new FileReader();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>r.onload=()=&gt;{ try{ const j=JSON.parse(r.result); S.wellness=j.wellness||[]; S.gps=j.gps||[]; S.gym=j.gym||[]; save(); }catch(err){ alert('Invalid JSON'); } };</p>
-<p class="p1"><span class="Apple-converted-space">      </span>r.readAsText(f);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Helpers -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function num(id){ const v = document.getElementById(id).value; const n=Number(v); return Number.isFinite(n)? n : null; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const byDateAsc = (a,b)=&gt; (a.date||'').localeCompare(b.date||'');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function renderTable(elId, rows, cols){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const el=document.getElementById(elId);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(!rows.length){ el.innerHTML='&lt;div class="hint"&gt;No data yet.&lt;/div&gt;'; return; }</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const head = '&lt;tr&gt;'+cols.map(c=&gt;`&lt;th&gt;${c}&lt;/th&gt;`).join('')+'&lt;/tr&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const body = rows.slice().reverse().map(r=&gt;'&lt;tr&gt;'+cols.map(c=&gt;`&lt;td&gt;${r[c]??''}&lt;/td&gt;`).join('')+'&lt;/tr&gt;').join('');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>el.innerHTML = `&lt;table&gt;${head}${body}&lt;/table&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ----- Charts + Glance -----</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let weightChart, gpsChart;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function drawAll(){ drawWeight(); drawGPS(); drawGlance(); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function drawWeight(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ctx=document.getElementById('weightChart'); if(!ctx) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const data = S.wellness.slice().sort(byDateAsc).filter(r=&gt;r.weight!=null);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const labels = data.map(r=&gt;r.date); const vals = data.map(r=&gt;+r.weight);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(weightChart) weightChart.destroy();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>weightChart = new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Weight (kg)',data:vals}]},options:{responsive:true}});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function drawGPS(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ctx=document.getElementById('gpsChart'); if(!ctx) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const byDay={};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>S.gps.forEach(r=&gt;{ const k=r.date; byDay[k]=byDay[k]||{dist:0,ts:0}; byDay[k].dist+=(+r.dist||0); byDay[k].ts=Math.max(byDay[k].ts,(+r.ts||0)); });</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const labels = Object.keys(byDay).sort();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dist = labels.map(d=&gt;byDay[d].dist); const ts = labels.map(d=&gt;byDay[d].ts);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(gpsChart) gpsChart.destroy();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gpsChart = new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Distance (m)',data:dist},{label:'Top Speed (m/s)',data:ts}]},options:{responsive:true}});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function drawGlance(){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const g=document.getElementById('glance'); if(!g) return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const y=todayStr();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const w=S.wellness.find(r=&gt;r.date===y);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const sessions=S.gps.filter(r=&gt;r.date===y);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dist=sessions.reduce((a,b)=&gt;a+(+b.dist||0),0);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ts=Math.max(0,...sessions.map(x=&gt;+x.ts||0));</p>
-<p class="p1"><span class="Apple-converted-space">      </span>g.innerHTML=`Date: &lt;b&gt;${y}&lt;/b&gt; — Sleep: &lt;b&gt;${w?.sleep??'—'}h&lt;/b&gt;, Weight: &lt;b&gt;${w?.weight??'—'}kg&lt;/b&gt;, Dist: &lt;b&gt;${Math.round(dist)}&lt;/b&gt; m, Top speed: &lt;b&gt;${ts.toFixed(2)}&lt;/b&gt; m/s`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// init</p>
-<p class="p1"><span class="Apple-converted-space">    </span>selectTab('home');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <header>
+    <div class="wrap">
+      <h1>🏉 Athlete Data App — Day1–2 MVP</h1>
+      <div class="sub">Wellness, GPS, Gym logging • Weight & GPS charts • Data saved to your browser</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="tabs" id="tabs"></nav>
+
+    <!-- HOME (charts) -->
+    <section id="home" class="grid cols-2">
+      <div class="panel">
+        <h2>Weight Trend</h2>
+        <canvas id="weightChart" height="170"></canvas>
+        <div class="hint">Enter weight in Wellness → it appears here.</div>
+      </div>
+      <div class="panel">
+        <h2>GPS Performance</h2>
+        <canvas id="gpsChart" height="170"></canvas>
+        <div class="hint">Shows Distance (m) and Top Speed (m/s) per day.</div>
+      </div>
+      <div class="panel" style="grid-column:1/-1">
+        <h2>Yesterday at a glance</h2>
+        <div id="glance" class="hint">Add today’s wellness/GPS to populate.</div>
+      </div>
+    </section>
+
+    <!-- WELLNESS -->
+    <section id="wellness" class="grid">
+      <div class="panel">
+        <h2>Daily Wellness</h2>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="wDate"></div>
+          <div><label>Sleep Hours</label><input type="number" step="0.25" id="wSleep" placeholder="7.0"></div>
+          <div><label>Mood (1–5)</label><input type="number" min="1" max="5" id="wMood" placeholder="3"></div>
+          <div><label>Stress (1–5)</label><input type="number" min="1" max="5" id="wStress" placeholder="2"></div>
+          <div><label>Soreness (1–5)</label><input type="number" min="1" max="5" id="wSore" placeholder="2"></div>
+          <div><label>Weight (kg)</label><input type="number" step="0.1" id="wWeight" placeholder="120.0"></div>
+          <div style="flex-basis:100%"><label>Notes</label><textarea id="wNotes" rows="2" placeholder=""></textarea></div>
+        </div>
+        <div class="row">
+          <button id="wSave">Add / Update</button>
+          <button id="wView">View Table</button>
+        </div>
+        <div id="wTable" class="table" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- GPS -->
+    <section id="gps" class="grid">
+      <div class="panel">
+        <h2>GPS Session (manual)</h2>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="gDate"></div>
+          <div><label>Duration (min)</label><input type="number" step="1" id="gDur" placeholder="60"></div>
+          <div><label>Distance (m)</label><input type="number" step="10" id="gDist" placeholder="4500"></div>
+          <div><label>Top Speed (m/s)</label><input type="number" step="0.1" id="gTS" placeholder="8.5"></div>
+          <div><label>RPE (1–10)</label><input type="number" min="1" max="10" id="gRPE" placeholder="6"></div>
+        </div>
+        <div class="row">
+          <button id="gAdd">Add Session</button>
+          <button id="gView">View Table</button>
+        </div>
+        <div id="gTable" class="table" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- GYM -->
+    <section id="gym" class="grid">
+      <div class="panel">
+        <h2>Gym Log</h2>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="yDate"></div>
+          <div><label>Lift</label><input type="text" id="yLift" placeholder="Back Squat"></div>
+          <div><label>Reps</label><input type="number" min="1" id="yReps" placeholder="3"></div>
+          <div><label>Weight (kg)</label><input type="number" step="0.5" id="yW" placeholder="180"></div>
+        </div>
+        <div class="row">
+          <button id="yAdd">Add Set</button>
+          <button id="yView">View Table</button>
+        </div>
+        <div id="yTable" class="table" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- DATA -->
+    <section id="data" class="grid">
+      <div class="panel">
+        <h2>Data Management</h2>
+        <div class="row">
+          <button id="btnExport">Export all data (.json)</button>
+          <input type="file" id="importFile" accept="application/json">
+          <button id="btnClear">Clear local data</button>
+        </div>
+        <div class="hint" style="margin-top:6px">This MVP stores everything in your browser (LocalStorage). Export regularly if needed.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ----- Tabs -----
+    const TABS = [
+      {id:'home',label:'Home'},
+      {id:'wellness',label:'Wellness'},
+      {id:'gps',label:'GPS'},
+      {id:'gym',label:'Gym'},
+      {id:'data',label:'Data'}
+    ];
+    const tabsEl = document.getElementById('tabs');
+    TABS.forEach((t,i)=>{
+      const b=document.createElement('button');
+      b.className='tab'+(i===0?' active':'');
+      b.textContent=t.label;
+      b.onclick=()=>selectTab(t.id);
+      tabsEl.appendChild(b);
+    });
+    function selectTab(id){
+      document.querySelectorAll('section').forEach(s=>s.style.display = (s.id===id?'grid':'none'));
+      document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active', TABS[i].id===id));
+      drawAll();
+    }
+
+    // ----- State -----
+    const S = {
+      wellness: JSON.parse(localStorage.getItem('wellness')||'[]'),
+      gps: JSON.parse(localStorage.getItem('gps')||'[]'),
+      gym: JSON.parse(localStorage.getItem('gym')||'[]')
+    };
+    const save = ()=>{
+      localStorage.setItem('wellness', JSON.stringify(S.wellness));
+      localStorage.setItem('gps', JSON.stringify(S.gps));
+      localStorage.setItem('gym', JSON.stringify(S.gym));
+      drawAll();
+    };
+    const todayStr = ()=> new Date().toISOString().slice(0,10);
+    ['wDate','gDate','yDate'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=todayStr(); });
+
+    // ----- Wellness -----
+    document.getElementById('wSave').onclick = ()=>{
+      const r = {
+        date: document.getElementById('wDate').value || todayStr(),
+        sleep: num('wSleep'), mood: num('wMood'),
+        stress: num('wStress'), sore: num('wSore'),
+        weight: num('wWeight'), notes: document.getElementById('wNotes').value||''
+      };
+      const i = S.wellness.findIndex(x=>x.date===r.date);
+      if(i>=0) S.wellness[i]=r; else S.wellness.push(r);
+      save();
+      renderTable('wTable', S.wellness, ['date','sleep','mood','stress','sore','weight']);
+    };
+    document.getElementById('wView').onclick = ()=>renderTable('wTable', S.wellness, ['date','sleep','mood','stress','sore','weight']);
+
+    // ----- GPS -----
+    document.getElementById('gAdd').onclick = ()=>{
+      const r = {
+        date: document.getElementById('gDate').value || todayStr(),
+        dur: num('gDur'), dist: num('gDist'), ts: num('gTS'), rpe: num('gRPE')
+      };
+      r.srpe = (r.rpe||0)*(r.dur||0);
+      S.gps.push(r); save();
+      renderTable('gTable', S.gps.sort(byDateAsc), ['date','dur','dist','ts','rpe','srpe']);
+    };
+    document.getElementById('gView').onclick = ()=>renderTable('gTable', S.gps.sort(byDateAsc), ['date','dur','dist','ts','rpe','srpe']);
+
+    // ----- Gym -----
+    document.getElementById('yAdd').onclick = ()=>{
+      const r = {
+        date: document.getElementById('yDate').value || todayStr(),
+        lift: document.getElementById('yLift').value||'',
+        reps: num('yReps'), w: num('yW')
+      };
+      S.gym.push(r); save();
+      renderTable('yTable', S.gym.sort(byDateAsc), ['date','lift','reps','w']);
+    };
+    document.getElementById('yView').onclick = ()=>renderTable('yTable', S.gym.sort(byDateAsc), ['date','lift','reps','w']);
+
+    // ----- Import/Export/Clear -----
+    document.getElementById('btnExport').onclick = ()=>{
+      const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+      a.download='athlete_data_export.json'; a.click(); URL.revokeObjectURL(a.href);
+    };
+    document.getElementById('btnClear').onclick = ()=>{
+      if(confirm('Delete all locally saved data?')){ localStorage.clear(); S.wellness=[]; S.gps=[]; S.gym=[]; drawAll(); }
+    };
+    document.getElementById('importFile').addEventListener('change', e=>{
+      const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+      r.onload=()=>{ try{ const j=JSON.parse(r.result); S.wellness=j.wellness||[]; S.gps=j.gps||[]; S.gym=j.gym||[]; save(); }catch(err){ alert('Invalid JSON'); } };
+      r.readAsText(f);
+    });
+
+    // ----- Helpers -----
+    function num(id){ const v = document.getElementById(id).value; const n=Number(v); return Number.isFinite(n)? n : null; }
+    const byDateAsc = (a,b)=> (a.date||'').localeCompare(b.date||'');
+    function renderTable(elId, rows, cols){
+      const el=document.getElementById(elId);
+      if(!rows.length){ el.innerHTML='<div class="hint">No data yet.</div>'; return; }
+      const head = '<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+      const body = rows.slice().reverse().map(r=>'<tr>'+cols.map(c=>`<td>${r[c]??''}</td>`).join('')+'</tr>').join('');
+      el.innerHTML = `<table>${head}${body}</table>`;
+    }
+
+    // ----- Charts + Glance -----
+    let weightChart, gpsChart;
+    function drawAll(){ drawWeight(); drawGPS(); drawGlance(); }
+
+    function drawWeight(){
+      const ctx=document.getElementById('weightChart'); if(!ctx) return;
+      const data = S.wellness.slice().sort(byDateAsc).filter(r=>r.weight!=null);
+      const labels = data.map(r=>r.date); const vals = data.map(r=>+r.weight);
+      if(weightChart) weightChart.destroy();
+      weightChart = new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Weight (kg)',data:vals}]},options:{responsive:true}});
+    }
+    function drawGPS(){
+      const ctx=document.getElementById('gpsChart'); if(!ctx) return;
+      const byDay={};
+      S.gps.forEach(r=>{ const k=r.date; byDay[k]=byDay[k]||{dist:0,ts:0}; byDay[k].dist+=(+r.dist||0); byDay[k].ts=Math.max(byDay[k].ts,(+r.ts||0)); });
+      const labels = Object.keys(byDay).sort();
+      const dist = labels.map(d=>byDay[d].dist); const ts = labels.map(d=>byDay[d].ts);
+      if(gpsChart) gpsChart.destroy();
+      gpsChart = new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Distance (m)',data:dist},{label:'Top Speed (m/s)',data:ts}]},options:{responsive:true}});
+    }
+    function drawGlance(){
+      const g=document.getElementById('glance'); if(!g) return;
+      const y=todayStr();
+      const w=S.wellness.find(r=>r.date===y);
+      const sessions=S.gps.filter(r=>r.date===y);
+      const dist=sessions.reduce((a,b)=>a+(+b.dist||0),0);
+      const ts=Math.max(0,...sessions.map(x=>+x.ts||0));
+      g.innerHTML=`Date: <b>${y}</b> — Sleep: <b>${w?.sleep??'—'}h</b>, Weight: <b>${w?.weight??'—'}kg</b>, Dist: <b>${Math.round(dist)}</b> m, Top speed: <b>${ts.toFixed(2)}</b> m/s`;
+    }
+
+    // init
+    selectTab('home');
+  </script>
 </body>
 </html>
