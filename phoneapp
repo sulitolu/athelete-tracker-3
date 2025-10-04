@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FitTracker Pro">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
+    <title>FitTracker Pro - Advanced Athletic Performance</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior: none;
+        }
+
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .mobile-header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 25px;
+            padding: 25px 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .brand-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-right: 15px;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .brand-text h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text p {
+            margin: 5px 0 0 0;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .mobile-nav {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 20px;
+            padding: 8px;
+        }
+
+        .nav-item {
+            flex: 1;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            min-height: 60px;
+            justify-content: center;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #06b6d4;
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(6, 182, 212, 0.15);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            margin-top: 20px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: 700;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .metrics-overview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 25px;
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.1);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .metric-title {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-icon {
+            font-size: 1.8rem;
+            opacity: 0.8;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #f8fafc, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .trend-positive {
+            color: #10b981;
+        }
+
+        .activity-tracker {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 25px;
+            padding: 30px 25px;
+            margin-bottom: 25px;
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .tracker-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin: 0;
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .progress-ring {
+            width: 140px;
+            height: 140px;
+            margin: 25px auto;
+            position: relative;
+        }
+
+        .ring-background {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #06b6d4 0deg 270deg, rgba(148, 163, 184, 0.2) 270deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .ring-background::before {
+            content: '';
+            width: 90px;
+            height: 90px;
+            background: #0f172a;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .ring-value {
+            position: absolute;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #f8fafc;
+            z-index: 1;
+        }
+
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px 15px;
+            background: rgba(148, 163, 184, 0.08);
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .performance-chart {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .chart-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin: 0 0 20px 0;
+        }
+
+        .chart-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-chip {
+            padding: 12px 20px;
+            background: rgba(148, 163, 184, 0.1);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 25px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-chip.active, .filter-chip:hover {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: rgba(6, 182, 212, 0.4);
+            color: #06b6d4;
+        }
+
+        .chart-visualization {
+            height: 200px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(59, 130, 246, 0.05));
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+        }
+
+        .chart-bar {
+            width: 20px;
+            background: linear-gradient(180deg, #06b6d4, #3b82f6);
+            border-radius: 10px 10px 0 0;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .workout-planner {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .workout-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            min-height: 60px;
+        }
+
+        .workout-item:last-child {
+            border-bottom: none;
+        }
+
+        .workout-info h4 {
+            margin: 0 0 8px 0;
+            color: #f8fafc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .workout-info p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .workout-time {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 20px 25px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-primary:hover, .btn-primary:active {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(6, 182, 212, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(148, 163, 184, 0.15);
+            color: #f8fafc;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .btn-secondary:hover, .btn-secondary:active {
+            background: rgba(148, 163, 184, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 15px 10px;
+            }
+            
+            .metrics-overview {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .metric-card {
+                padding: 25px 20px;
+                min-height: 140px;
+            }
+            
+            .metric-value {
+                font-size: 2.5rem;
+            }
+            
+            .activity-stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .chart-visualization {
+                height: 180px;
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                gap: 12px;
+            }
+            
+            .action-btn {
+                padding: 18px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-header {
+                padding: 20px 15px;
+            }
+            
+            .brand-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6rem;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-item {
+                padding: 12px 8px;
+                font-size: 0.75rem;
+            }
+            
+            .nav-icon {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Touch improvements */
+        .action-btn:active,
+        .filter-chip:active,
+        .nav-item:active {
+            transform: scale(0.98);
+        }
+
+        /* Prevent zoom on input focus */
+        input, select, textarea {
+            font-size: 16px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hide scrollbars but keep functionality */
+        .chart-filters::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .chart-filters {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="mobile-header">
+            <div class="app-brand">
+                <div class="brand-icon">🏃‍♂️</div>
+                <div class="brand-text">
+                    <h1>FitTracker Pro</h1>
+                    <p>Your Personal Fitness Coach</p>
+                </div>
+            </div>
+            
+            <div class="mobile-nav">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🏋️‍♂️</span>
+                    Workouts
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📈</span>
+                    Progress
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🎯</span>
+                    Goals
+                </a>
+            </div>
+            
+            <div class="user-profile">
+                <div class="profile-avatar">AS</div>
+                <div>
+                    <div style="font-weight: 600; color: #f8fafc; font-size: 1.1rem;">Alex Smith</div>
+                    <div style="font-size: 0.9rem; color: #94a3b8;">Premium Member</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="metrics-overview">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-title">Active Calories</div>
+                        <div class="metric-icon">🔥</div>
+                    </div>
+                    <div class="metric-value">2,847</div>
+                    <div class="metric-trend trend-positive">
+                        ↗️ +12% from yesterday
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-title">Distance</div>
+                        <div class="metric-icon">📏</div>
+                    </div>
+                    <div class="metric-value">15.2 <span style="font-size: 1rem;">km</span></div>
+                    <div class="metric-trend trend-positive">
+                        ↗️ +8% from average
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-title">Heart Rate</div>
+                        <div class="metric-icon">❤️</div>
+                    </div>
+                    <div class="metric-value">148 <span style="font-size: 1rem;">bpm</span></div>
+                    <div class="metric-trend trend-positive">
+                        ↗️ Zone 4 - Vigorous
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-title">Performance</div>
+                        <div class="metric-icon">⚡</div>
+                    </div>
+                    <div class="metric-value">94 <span style="font-size: 1rem;">%</span></div>
+                    <div class="metric-trend trend-positive">
+                        ↗️ Excellent form
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-tracker">
+                <div class="tracker-header">
+                    <h3 class="tracker-title">Live Activity</h3>
+                    <div class="live-status">
+                        <div class="status-dot"></div>
+                        Active Session
+                    </div>
+                </div>
+                
+                <div class="progress-ring">
+                    <div class="ring-background">
+                        <div class="ring-value">75%</div>
+                    </div>
+                </div>
+                
+                <div class="activity-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">42:18</div>
+                        <div class="stat-label">Duration</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8.7</div>
+                        <div class="stat-label">Miles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">687</div>
+                        <div class="stat-label">Calories</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">152</div>
+                        <div class="stat-label">Avg BPM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="performance-chart">
+                <h3 class="chart-title">Weekly Performance</h3>
+                <div class="chart-filters">
+                    <div class="filter-chip">Calories</div>
+                    <div class="filter-chip active">Distance</div>
+                    <div class="filter-chip">Duration</div>
+                    <div class="filter-chip">Heart Rate</div>
+                </div>
+                
+                <div class="chart-visualization">
+                    <div class="chart-bar" style="height: 65%;"></div>
+                    <div class="chart-bar" style="height: 80%;"></div>
+                    <div class="chart-bar" style="height: 45%;"></div>
+                    <div class="chart-bar" style="height: 90%;"></div>
+                    <div class="chart-bar" style="height: 75%;"></div>
+                    <div class="chart-bar" style="height: 95%;"></div>
+                    <div class="chart-bar" style="height: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="workout-planner">
+                <h3 class="tracker-title">Upcoming Workouts</h3>
+                
+                <div class="workout-item">
+                    <div class="workout-info">
+                        <h4>🏃‍♂️ Morning Run</h4>
+                        <p>5K tempo run • Zone 3-4</p>
+                    </div>
+                    <div class="workout-time">7:00 AM</div>
+                </div>
+                
+                <div class="workout-item">
+                    <div class="workout-info">
+                        <h4>💪 Strength Training</h4>
+                        <p>Upper body • 45 minutes</p>
+                    </div>
+                    <div class="workout-time">6:00 PM</div>
+                </div>
+                
+                <div class="workout-item">
+                    <div class="workout-info">
+                        <h4>🧘‍♂️ Recovery Yoga</h4>
+                        <p>Flexibility • 30 minutes</p>
+                    </div>
+                    <div class="workout-time">8:00 PM</div>
+                </div>
+                
+                <div class="workout-item">
+                    <div class="workout-info">
+                        <h4>🚴‍♂️ Cycling</h4>
+                        <p>Endurance ride • 60 minutes</p>
+                    </div>
+                    <div class="workout-time">Tomorrow</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn btn-primary" onclick="startWorkout()">
+                    <span class="btn-icon">🚀</span>
+                    Start New Workout
+                </button>
+                <button class="action-btn btn-secondary" onclick="pauseSession()">
+                    <span class="btn-icon">⏸️</span>
+                    Pause Current Session
+                </button>
+                <button class="action-btn btn-secondary" onclick="viewAnalytics()">
+                    <span class="btn-icon">📊</span>
+                    View Detailed Analytics
+                </button>
+                <button class="action-btn btn-secondary" onclick="setGoals()">
+                    <span class="btn-icon">🎯</span>
+                    Set New Fitness Goals
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startWorkout() {
+            alert('🚀 Ready to start your workout! Choose your activity type and let\'s track your amazing progress in real-time! 💪');
+        }
+
+        function pauseSession() {
+            alert('⏸️ Session paused successfully! Your progress is safely saved. Resume whenever you\'re ready to continue crushing it! 🏆');
+        }
+
+        function viewAnalytics() {
+            alert('📊 Your analytics look incredible! You\'ve improved endurance by 22% and strength by 15% this month. Keep up the outstanding work! 🌟');
+        }
+
+        function setGoals() {
+            const goal = prompt('🎯 What\'s your new fitness goal? (e.g., "Run 10K in under 45 minutes")', 'Run 10K in under 45 minutes');
+            if (goal && goal.trim()) {
+                alert(`🎯 Goal set: "${goal}"\n\nYour personalized training plan is being created! Let\'s make it happen together! 🚀💪`);
+            }
+        }
+
+        // Enhanced mobile interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate chart bars on load
+            const bars = document.querySelectorAll('.chart-bar');
+            bars.forEach((bar, index) => {
+                const height = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 800 + (index * 100));
+            });
+
+            // Navigation functionality
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Haptic feedback simulation
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                });
+            });
+
+            // Filter functionality
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Haptic feedback
+                    if (navigator.vibrate) {
+                        navigator.vibrate(30);
+                    }
+                });
+            });
+
+            // Enhanced touch feedback for buttons
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Simulate live data updates
+            setInterval(() => {
+                const heartRate = document.querySelector('.metric-card:nth-child(3) .metric-value');
+                if (heartRate) {
+                    const currentRate = parseInt(heartRate.textContent);
+                    const newRate = currentRate + Math.floor(Math.random() * 6) - 3;
+                    heartRate.innerHTML = `${Math.max(140, Math.min(160, newRate))} <span style="font-size: 1rem;">bpm</span>`;
+                }
+            }, 4000);
+
+            // Update progress ring animation
+            const progressRing = document.querySelector('.ring-background');
+            let progress = 75;
+            setInterval(() => {
+                progress = Math.max(70, Math.min(95, progress + Math.floor(Math.random() * 6) - 3));
+                const degrees = (progress / 100) * 360;
+                progressRing.style.background = `conic-gradient(from 0deg, #06b6d4 0deg ${degrees}deg, rgba(148, 163, 184, 0.2) ${degrees}deg 360deg)`;
+                document.querySelector('.ring-value').textContent = `${progress}%`;
+            }, 5000);
+        });
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Service Worker registration for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // This would register a service worker in a real app
+                console.log('PWA features ready');
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98931c7615c13bf7',t:'MTc1OTU2NDQ2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
